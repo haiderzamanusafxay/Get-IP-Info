@@ -1,7 +1,7 @@
 <?php
 require_once('config.php');
 ?>
-<html>
+<!doctype html>
     <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -182,8 +182,8 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
  
 <script>
   $(document).ready(function(){
-   $('#searchbar').on("keyup",function(){
-     var data1 = $(this).val();
+   $('#searchbtn').click(function(){
+     var data1 = $("#searchbar").val();
      $.ajax({
        method:'GET',
        url:'search.php',
