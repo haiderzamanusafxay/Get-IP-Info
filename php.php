@@ -128,9 +128,9 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
 <h1>Info of ip addresses</h1>
 
 <!-- search bar starts here  -->
-<form action="php.php" method="GET">
+<form>
             <input type="search" name="search" id="searchbar" placeholder="Search data">
-            <input type="submit" value="Search" id="searchbtn">
+            <input type="button" value="Search" id="searchbtn">
             </form>
 
   <!-- search bar ends here  -->
