@@ -126,6 +126,8 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
         $result= mysqli_query($conn,$showdata);
     ?>
 <h1>Info of ip addresses</h1>
+<p>This is just a paragraph for example to check</p> 
+<p>this is a new paragraph</p>
 <!-- search bar starts here  -->
 <form action="php.php" method="GET">
             <input type="search" name="search" id="searchbar" placeholder="Search data">
