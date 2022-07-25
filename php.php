@@ -127,7 +127,7 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
     ?>
 <h1>Info of ip Addresses</h1>
 <!-- search bar starts here  -->
-<form action="php.php" method="GET">
+<form action="search.php" method="GET">
             <input type="search" name="search" id="searchbar" placeholder="Search data">
             <input type="submit" value="Search" id="searchbtn">
             </form>
@@ -156,7 +156,7 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
   </div>
   <div class="tbl-content">
   <table cellpadding="0" cellspacing="0" border="0">
-    <tbody>
+    <tbody id="display_rows">
     <?php 
       if(mysqli_num_rows($result) > 0){
       foreach($result as $items){
@@ -178,59 +178,30 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
 // }
   ?>
 <!-- // if(!isset($_GET['search']) || $_GET== ""){?> -->
-  <section>
-  <div class="tbl-header">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <thead>
-        <tr>
-        <th>ID<th>
-				<th>Ip Address</th>
-				<th>Country Name</th>
-				<th>City</th>
-				<th>Longitude</th>
-				<th>Latitude</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
-  <div class="tbl-content">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody id="showSingleRec">
-      <tr>
-      <?php     
-          while($rows=$result->fetch_assoc()){
-            ?>
-                    
-				<td colspan="2"><?php echo $rows['id'] ?></td>
-				<td><?php echo $rows['ip'] ?></td>
-				<td><?php echo $rows['country'] ?></td>
-				<td><?php echo $rows['city'] ?></td>
-				<td><?php echo $rows['lon'] ?></td>
-                <td><?php echo $rows['lat'] ?></td>
-			</tr>
-            <?php } ?>
-      </tbody>
-    </table>
-  </div>
-</section>
-<?php
-// }
-?>
+
 <script>
-  $(document).ready(function(){
-   $('#searchbar').on("keyup",function(){
-     var data1 = $(this).val();
-     $.ajax({
-       method:'GET',
-       url:'search.php',
-       data:{search:data1},
-       success:function(response)
-       {
-          $("#showSingleRec").html(response);
-       } 
-     });
-   });
-  });
+  // $(document).ready(function(){
+  //  $('#searchbtn').onclick(function(){
+  //    var data1 = $(this).val();
+  //    $.ajax({
+  //      method:'GET',
+  //      url:'search.php',
+  //      data:{search:data1},
+  //      success:function(response)
+  //      {
+  //         $("#showSingleRec").html(response);
+  //      } 
+  //    });
+  //  });
+  // });
+  
+  $.ajax({
+        type: "GET",
+        url: 'search.php',
+        success: function(data){
+            $('#display_rows').html(data);
+        }
+    });
 </script>
 </body>
 </html>
