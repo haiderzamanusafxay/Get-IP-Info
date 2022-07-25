@@ -125,7 +125,7 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
         ON data.id=cities.cityid";
         $result= mysqli_query($conn,$showdata);
     ?>
-<h1>Info of ip addresses</h1>
+<h1>Info of ip Addresses</h1>
 <!-- search bar starts here  -->
 <form action="php.php" method="GET">
             <input type="search" name="search" id="searchbar" placeholder="Search data">
