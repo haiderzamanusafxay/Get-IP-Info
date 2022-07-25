@@ -1,6 +1,6 @@
 
 <?php
-if($_GET['search']!=""){
+if($_GET['input']!=""){
 require_once('config.php');
         $filtervalues = $_GET['search'];           
         $query = "SELECT data.countryName AS country,data.longitude AS lon,data.latitude AS lat, data.ip AS ip, data.city AS city, data.id AS id

@@ -127,8 +127,8 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
     ?>
 <h1>Info of ip Addresses</h1>
 <!-- search bar starts here  -->
-<form action="search.php" method="GET">
-            <input type="search" name="search" id="searchbar" placeholder="Search data">
+<form>
+            <input type="search" name="search" id="search" placeholder="Search data">
             <input type="submit" value="Search" id="searchbtn">
             </form>
 
@@ -156,7 +156,7 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
   </div>
   <div class="tbl-content">
   <table cellpadding="0" cellspacing="0" border="0">
-    <tbody id="display_rows">
+    <tbody id="searchresult">
     <?php 
       if(mysqli_num_rows($result) > 0){
       foreach($result as $items){
@@ -194,13 +194,22 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
   //    });
   //  });
   // });
-  
-  $.ajax({
-        type: "GET",
-        url: 'search.php',
-        success: function(data){
-            $('#display_rows').html(data);
+    $(document).redy(function(){
+      $("#searchbtn").click(function(){
+        var input= "#search";
+
+        if(input != ""){
+          $.ajax({
+              url:"search.php",
+              method:"GET";
+              data:{search:input},
+              success:function(data){
+                $("#searchresult").html(data);
+              }
+              
+          });
         }
+      });
     });
 </script>
 </body>
