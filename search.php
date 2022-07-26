@@ -1,7 +1,7 @@
 
 <?php
-if($_GET['search']!=""){
 require_once('config.php');
+if($_GET['search']!=""){
         $filtervalues = $_GET['search'];           
         $query = "SELECT data.countryName AS country,data.longitude AS lon,data.latitude AS lat, data.ip AS ip, data.city AS city, data.id AS id
         FROM data JOIN cities
@@ -26,4 +26,23 @@ require_once('config.php');
       <td><?php echo $rows['lat'] ?></td>
 </tr>
          
-    <?php }}} ?>
+    <?php }}}else{ 
+      $query2 = "SELECT data.countryName AS country,data.longitude AS lon,data.latitude AS lat, data.ip AS ip, data.city AS city, data.id AS id
+      FROM data JOIN cities
+      ON data.id=cities.cityid ";
+      $result2= mysqli_query($conn,$query2);
+      if(mysqli_num_rows($result2)>0){
+          ?>
+    <?php 
+      foreach($result2 as $items2){
+    ?>
+    <tr>
+      <td colspan="2"><?php echo $items2['id'] ?></td>
+      <td><?php echo $items2['ip'] ?></td>
+      <td><?php echo $items2['country'] ?></td>
+      <td><?php echo $items2['city'] ?></td>
+      <td><?php echo $items2['lon'] ?></td>
+      <td><?php echo $items2['lat'] ?></td>
+    </tr>
+          <?php }} ?>
+<?php } ?>
