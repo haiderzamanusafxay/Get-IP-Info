@@ -5,7 +5,8 @@ require_once('config.php');
     <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"></script>
+  <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="icon.jpg">
     <style>
         
@@ -103,7 +104,7 @@ section{
     #searchbar{
         height:30px;
         width:230px;
-        margin: 0px 0px 10px 860px;
+        margin: 0px 0px 0px 870px;
         border-radius:13px 0px 0px 13px;
     }
     #searchbar[placeholder]{
@@ -114,6 +115,10 @@ section{
         margin-left:0px;
         width:60px;
         height:30px;
+    }
+    #addicon{
+      width:50px;
+      height:20px;
     }
 /* ends search bar styling  */
     </style>
@@ -128,14 +133,13 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
 <h1>Info of ip addresses</h1>
 
 <!-- search bar starts here  -->
-<form>
+            <form>
             <input type="search" name="search" id="searchbar" placeholder="Search data">
             <input type="button" value="Search" id="searchbtn">
             </form>
 
   <!-- search bar ends here  -->
-    
-
+  <button class="lni lni-circle-plus" id="addicon"></button>
 <?php
 // if(isset($_GET['search'])){
 ?>
@@ -151,6 +155,7 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
 				<th>City</th>
 				<th>Longitude</th>
 				<th>Latitude</th>
+        <th>Action</th>
         </tr>
       </thead>
     </table>
@@ -169,6 +174,7 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
       <td><?php echo $items['city'] ?></td>
       <td><?php echo $items['lon'] ?></td>
       <td><?php echo $items['lat'] ?></td>
+      <td><i class="lni lni-pencil"></i><i class="lni lni-trash-can"></i></td>
     </tr>
           <?php }} ?>
     </tbody>
