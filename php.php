@@ -5,7 +5,6 @@ require_once('config.php');
     <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"></script>
   <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="icon.jpg">
     <style>
@@ -141,7 +140,6 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
   <!-- search bar ends here  -->
   <button class="lni lni-circle-plus" id="addicon"></button>
 <?php
-// if(isset($_GET['search'])){
 ?>
 
 <section>
@@ -165,15 +163,15 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
     <tbody id="showSingleRec">
     <?php 
       if(mysqli_num_rows($result) > 0){
-      foreach($result as $items){
+      while($rows= mysqli_fetch_array($result){
     ?>
     <tr>
-      <td colspan="2"><?php echo $items['id'] ?></td>
-      <td><?php echo $items['ip'] ?></td>
-      <td><?php echo $items['country'] ?></td>
-      <td><?php echo $items['city'] ?></td>
-      <td><?php echo $items['lon'] ?></td>
-      <td><?php echo $items['lat'] ?></td>
+      <td colspan="2"><?php echo $rows['id'] ?></td>
+      <td><?php echo $rows['ip'] ?></td>
+      <td><?php echo $rows['country'] ?></td>
+      <td><?php echo $rows['city'] ?></td>
+      <td><?php echo $rows['lon'] ?></td>
+      <td><?php echo $rows['lat'] ?></td>
       <td><i class="lni lni-pencil"></i><i class="lni lni-trash-can"></i></td>
     </tr>
           <?php }} ?>
@@ -184,8 +182,6 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
 <?php
 // }
   ?>
-<!-- // if(!isset($_GET['search']) || $_GET== ""){?> -->
- 
 <script>
   $(document).ready(function(){
    $('#searchbtn').click(function(){
@@ -199,8 +195,22 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
           $("#showSingleRec").html(response);
        } 
      });
-   });
+   })
   });
+
+   $(function() {
+    $('#addicon').bind('click', function(e) {
+      e.preventDefault();
+      $('#addform').append({
+        contentContainer: 'body',
+        loadUrl: 'index.php',
+        position: [10, 10], //x, y
+        positionStyle: 'fixed'
+      });
+    });
+  });
+
+  
 </script>
 </body>
 </html>
