@@ -145,6 +145,29 @@ section{
     </style>
 </head>
 <body>
+<!-- modal  -->
+<div class="modal fade" id="empModal" role="dialog">
+                <div class="modal-dialog">
+                
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          
+                        </div>
+                        <div class="modal-body">
+                          
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+
+        <!-- model ends  -->
+
 <?php
 $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitude AS lat, data.ip AS ip, data.city AS city,data.id AS id
         FROM data JOIN cities
@@ -215,7 +238,8 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
         url: 'add.php',
         method: 'post',
         success:function(load){
-          $('.form').html(load);
+          $('.modal-body').html(load); 
+          $('#empModal').modal('show'); 
         }
       });
     });
