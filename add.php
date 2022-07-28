@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADD RECORD</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"></script>
     <style>
         body{margin:0}
 .form{width:340px;height:440px;background:#e6e6e6;border-radius:8px;box-shadow:0 0 40px -10px #000;margin:calc(50vh - 220px) auto;padding:20px 30px;max-width:calc(100vw - 40px);box-sizing:border-box;font-family:'Montserrat',sans-serif;position:relative}
@@ -19,27 +20,61 @@ div{content:'Hi';position:absolute;bottom:-15px;right:-20px;background:#50505a;c
     </style>
 </head>
 <body>
-    <form action="add.php" method="GET" class="form">
-    <h2>Enter Ip address</h2>
-  <input type='name' placeholder="xxx.xxx.xx.x" name='ip' required>
-  <input type="submit" value="Submit">
-    </form>
 <?php
 require_once('config.php');
-if(isset($_GET['ip'])){ 
+$result = false;
+if(isset($_GET['ip'])){
   $ip=$_GET['ip'];
   $user_info= json_decode(file_get_contents("http://ipwho.is/$ip"),true);
+
   $country= $user_info['country'];
   $long=$user_info['longitude'];
   $lat=$user_info['latitude'];
   $city=$user_info['city'];
   $ip=$user_info['ip'];
   $borders= $user_info['borders'];
- echo $ip;
+
 
   $sql= "INSERT INTO data (countryName,longitude,latitude,ip,city) VALUES ('$country','$long','$lat','$ip','$city')";
   $result= mysqli_query($conn,$sql);
+  $foreignid= "SELECT id FROM `data` WHERE city='$city'";
+  $id=mysqli_query($conn,$foreignid);
+  $result= mysqli_fetch_assoc($id);
+  
+  foreach ($result as $key => $value) {
+      $sql2= "INSERT INTO cities(cityid,city) VALUES ('$value','$city')";
+      mysqli_query($conn,$sql2);
+  }
+}
+if($result){
+  header('location: php.php');
 }
 ?>
+<form class="modal" tabindex="-1" role="dialog"  action="add.php" method="GET">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <<input type='name' placeholder="xxx.xxx.xx.x" name='ip' required>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+<!--   
+</form>
+    <form class="form" action="" method="GET">
+    <h2>Enter Ip address</h2>
+  <input type='name' placeholder="xxx.xxx.xx.x" name='ip' required>
+  <input type="submit" value="Submit">
+    </form> -->
+
 </body>
 </html>

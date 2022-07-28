@@ -115,11 +115,33 @@ section{
         width:60px;
         height:30px;
     }
-    #addicon{
-      width:50px;
-      height:20px;
-    }
 /* ends search bar styling  */
+/* CSS */
+#addicon{
+
+  background: #5E5DF0;
+  border-radius: 999px;
+  box-shadow: #5E5DF0 0 10px 20px -10px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  opacity: 1;
+  outline: 0 solid transparent;
+  padding: 8px 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: fit-content;
+  word-break: break-word;
+  border: 0;
+  height:fit-content;
+  margin-left:1000px;
+  margin-top:10px;
+}
     </style>
 </head>
 <body>
@@ -138,7 +160,7 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
             </form>
 
   <!-- search bar ends here  -->
-  <button class="lni lni-circle-plus" id="addicon"></button>
+  <button  id="addicon">ADD COUNTRY</button>
 <?php
 ?>
 
@@ -163,8 +185,8 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
     <tbody id="showSingleRec">
     <?php 
       if(mysqli_num_rows($result) > 0){
-      while($rows= mysqli_fetch_array($result){
-    ?>
+      while($rows=mysqli_fetch_assoc($result)){
+        ?>
     <tr>
       <td colspan="2"><?php echo $rows['id'] ?></td>
       <td><?php echo $rows['ip'] ?></td>
@@ -174,16 +196,30 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
       <td><?php echo $rows['lat'] ?></td>
       <td><i class="lni lni-pencil"></i><i class="lni lni-trash-can"></i></td>
     </tr>
-          <?php }} ?>
+          <?php }}?>
     </tbody>
   </table>
       </section>
-</div>
+      </div>
+
+
+      
 <?php
 // }
   ?>
 <script>
   $(document).ready(function(){
+     // adding ajax to the add button 
+     $('#addicon').click(function(){
+      $.ajax({
+        url: 'add.php',
+        method: 'post',
+        success:function(load){
+          $('.form').html(load);
+        }
+      });
+    });
+    // adding ajax to the search 
    $('#searchbtn').click(function(){
      var data1 = $("#searchbar").val();
      $.ajax({
@@ -195,20 +231,8 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
           $("#showSingleRec").html(response);
        } 
      });
-   })
-  });
-
-   $(function() {
-    $('#addicon').bind('click', function(e) {
-      e.preventDefault();
-      $('#addform').append({
-        contentContainer: 'body',
-        loadUrl: 'index.php',
-        position: [10, 10], //x, y
-        positionStyle: 'fixed'
-      });
-    });
-  });
+   });
+  });  
 
   
 </script>
