@@ -50,25 +50,6 @@ if($result){
   header('location: php.php');
 }
 ?>
-<!-- <form class="modal" tabindex="-1" role="dialog"  action="add.php" method="GET">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <<input type='name' placeholder="xxx.xxx.xx.x" name='ip' required>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div> -->
-  
 </form>
     <form class="form" action="" method="GET"  role="dialog">
     <h2>Enter Ip address</h2>

@@ -146,27 +146,18 @@ section{
 </head>
 <body>
 <!-- modal  -->
-<div class="modal fade" id="empModal" role="dialog">
-                <div class="modal-dialog">
-                
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          
-                        </div>
-                        <div class="modal-body">
-                          
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                  
-                </div>
-            </div>
-
-        <!-- model ends  -->
+<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      </div>
+  </div>
+</div>        <!-- model ends  -->
 
 <?php
 $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitude AS lat, data.ip AS ip, data.city AS city,data.id AS id
@@ -217,7 +208,7 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
       <td><?php echo $rows['city'] ?></td>
       <td><?php echo $rows['lon'] ?></td>
       <td><?php echo $rows['lat'] ?></td>
-      <td><i class="lni lni-pencil"></i><i class="lni lni-trash-can"></i></td>
+      <td><i class="lni lni-pencil"></i><i class="lni lni-trash-can" id="delete" name="delete"></i></td>
     </tr>
           <?php }}?>
     </tbody>
@@ -233,13 +224,14 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
 <script>
   $(document).ready(function(){
      // adding ajax to the add button 
+     
      $('#addicon').click(function(){
       $.ajax({
         url: 'add.php',
         method: 'post',
         success:function(load){
-          $('.modal-body').html(load); 
-          $('#empModal').modal('show'); 
+          $('.modal-body').append(load); 
+          
         }
       });
     });
@@ -256,8 +248,23 @@ $showdata= "SELECT data.countryName AS country,data.longitude AS lon,data.latitu
        } 
      });
    });
-  });  
+  //  search bar ajax end here 
+  $('#delete').click(function(){
+    var id = $(this).data('id');
+  	$clicked_btn = $(this);
+  	$.ajax({
+  	  url: 'delete.php',
+  	  type: 'GET',
+  	  data: {
+    	'id': id,
+      }
+    });
+      });
 
+
+    // delete button ajax end here 
+  });  
+  
   
 </script>
 </body>
