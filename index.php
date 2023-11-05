@@ -1,59 +1,124 @@
-<?php
-require_once('config.php');
-$result = false;
-if(isset($_POST['ip'])){
-  $ip=$_POST['ip'];
-  $user_info= json_decode(file_get_contents("http://ipwho.is/$ip"),true);
-
-  $country= $user_info['country'];
-  $long=$user_info['longitude'];
-  $lat=$user_info['latitude'];
-  $city=$user_info['city'];
-  $ip=$user_info['ip'];
-  $borders= $user_info['borders'];
-
-
-  $sql= "INSERT INTO data (countryName,longitude,latitude,ip,city) VALUES ('$country','$long','$lat','$ip','$city')";
-  $result= mysqli_query($conn,$sql);
-  $foreignid= "SELECT id FROM `data` WHERE city='$city'";
-  $id=mysqli_query($conn,$foreignid);
-  $result= mysqli_fetch_assoc($id);
-  
-  foreach ($result as $key => $value) {
-      $sql2= "INSERT INTO cities(cityid,city) VALUES ('$value','$city')";
-      mysqli_query($conn,$sql2);
-  }
-}
-if($result){
-  header('location: php.php');
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Getting Ip address info</title>
-    <style>
-        body{background:#59ABE3;margin:0}
-.form{width:340px;height:440px;background:#e6e6e6;border-radius:8px;box-shadow:0 0 40px -10px #000;margin:calc(50vh - 220px) auto;padding:20px 30px;max-width:calc(100vw - 40px);box-sizing:border-box;font-family:'Montserrat',sans-serif;position:relative}
-h2{margin:10px 0;padding-bottom:10px;width:180px;color:#78788c;border-bottom:3px solid #78788c}
-input{width:100%;padding:10px;box-sizing:border-box;background:none;outline:none;resize:none;border:0;font-family:'Montserrat',sans-serif;transition:all .3s;border-bottom:2px solid #bebed2}
-input:focus{border-bottom:2px solid #78788c}
-p:before{content:attr(type);display:block;margin:28px 0 0;font-size:14px;color:#5a5a5a}
-button{float:right;padding:8px 12px;margin:8px 0 0;font-family:'Montserrat',sans-serif;border:2px solid #78788c;background:0;color:#5a5a6e;cursor:pointer;transition:all .3s}
-button:hover{background:#78788c;color:#fff}
-div{content:'Hi';position:absolute;bottom:-15px;right:-20px;background:#50505a;color:#fff;width:320px;padding:16px 4px 16px 0;border-radius:6px;font-size:13px;box-shadow:10px 10px 40px -14p;
-}
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Ip address info</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <style>
+    .newsletter {
+      position: relative;
+      padding-top: 30px;
+      padding-left: 220px;
+      flex-grow: 1;
+    }
+
+    .newsletter svg {
+      position: absolute;
+      z-index: 0;
+      top: -90px;
+      left: 60px;
+      fill: #fcdbe8;
+    }
+
+    .newsletter .newsletter-title {
+      margin-bottom: 40px;
+      font-family: IMFell DW, Times, Georgia, serif;
+      font-weight: 400;
+      font-style: italic;
+      color: #1107ff;
+      font-size: 4.0625rem;
+      letter-spacing: -.02em;
+      line-height: .9230769231;
+      position: relative;
+      z-index: 999;
+    }
+
+    .newsletter .newsletter-text {
+      color: rgba(17, 7, 255, .8);
+      padding-right: 140px;
+      position: relative;
+      z-index: 999;
+      max-width: 450px;
+    }
+
+    .newsletter .newsletter-form {
+      position: relative;
+      max-width: 355px;
+      margin-top: 23px;
+      z-index: 999;
+    }
+
+    .newsletter .newsletter-form input {
+      height: 55px;
+      width: 100%;
+      padding: 18px 135px 17px 30px;
+      font-family: IM Fell English, Times, Georgia, serif;
+      font-weight: 400;
+      font-style: italic;
+      border: 0 none;
+      border-radius: 20px;
+      outline: none;
+      background-color: #fff;
+      color: #1107ff;
+      font-size: 1.125rem;
+      line-height: 1;
+    }
+
+    .newsletter .newsletter-form button {
+      font-family: Sofia Pro, Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-style: normal;
+      width: 116px;
+      height: 36px;
+      transition: background-color .3s cubic-bezier(.165, .84, .44, 1);
+      border-radius: 15px;
+      background-color: #ff66a0;
+      color: #fff;
+      font-size: .875rem;
+      line-height: 1;
+      position: absolute;
+      right: 9px;
+      bottom: 9px;
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      border: 0px;
+      outline: none;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
-<form class="form" action="index.php" method="post" id="addform">
-  <h2>Enter Ip address</h2>
-  <input type='name' placeholder="xxx.xxx.xx.x" name='ip' required>
-  <input type="submit" value="Submit">
-</form>
+  <script>
+    $(document).ready(function () {
+
+      $.ajax({
+        type: "GET",
+        url: "bodyContent.php",
+        success: function (response) {
+          $('body').html(response);
+        }
+      });
+      
+      $(".button").click(function () {
+        var ip = $('#email').val();
+        $.ajax({
+          url: 'searchforIP.php',
+          type: "POST",
+          data: { ip: ip },
+          success: (response) => {
+            $('body').html(response);
+          }
+        })
+      })
+    });
+  </script>
 </body>
+
 </html>
